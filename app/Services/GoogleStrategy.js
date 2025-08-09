@@ -1,7 +1,7 @@
 require('dotenv').config();
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const db = require('../db/models');
+const db = require('../../db/models');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const welcomeMail = require('./WelcomeMail');

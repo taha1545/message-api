@@ -1,7 +1,7 @@
-const UserResource = require('../Resource/UserResource');
+const UserResource = require('../app/Resource/UserResource');
 const db = require('../db/models');
-const notfoundError = require('../Error/NotFoundError');
-const handleJsonImage = require("../Services/handleJsonImage");
+const notfoundError = require('../app/Error/NotFoundError');
+const handleJsonImage = require("../app/Services/handleJsonImage");
 
 
 const getUserByToken = async (req, res, next) => {

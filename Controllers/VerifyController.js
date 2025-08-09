@@ -1,7 +1,7 @@
 const db = require('../db/models');
-const notfoundError = require('../Error/NotFoundError');
+const notfoundError = require('../app/Error/NotFoundError');
 const crypto = require('crypto');
-const VerifyEmail = require('../Services/VerifyEmail');
+const VerifyEmail = require('../app/Services/VerifyEmail');
 
 
 const otpVerify = async (req, res, next) => {

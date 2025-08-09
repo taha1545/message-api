@@ -2,10 +2,10 @@ const express = require("express");
 const Router = express.Router();
 
 const AuthController = require('../Controllers/AuthController');
-const Upload = require('../Services/Storage');
-const AuthMiddleware = require('../Middlewares/Auth');
-const UserValidation = require('../Validators/UserValidator');
-const Validate = require('../Middlewares/validate');
+const Upload = require('../app/Services/Storage');
+const AuthMiddleware = require('../app/Middlewares/Auth');
+const UserValidation = require('../app/Validators/UserValidator');
+const Validate = require('../app/Middlewares/validate');
 const UserController = require('../Controllers/UserController');
 const VerifyController = require('../Controllers/VerifyController');
 

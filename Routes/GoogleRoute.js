@@ -5,10 +5,10 @@ const express = require('express');
 const Router = express.Router();
 
 const passport = require('passport');
-const Auth = require('../Services/Auth');
+const Auth = require('../app/Services/Auth');
 const session = require('express-session');
 
-require('../Services/GoogleStrategy');
+require('../app/Services/GoogleStrategy');
 
 // Session
 Router.use(

@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs");
 //
 const htmlTemplate = fs.readFileSync(
-    path.join(__dirname, "../templates/verify.html"),
+    path.join(__dirname, "../../public/templates/verify.html"),
     "utf-8"
 );
 // 

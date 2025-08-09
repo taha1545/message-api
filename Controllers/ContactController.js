@@ -1,6 +1,6 @@
 const db = require('../db/models');
-const ContactResource = require('../Resource/ContactResource');
-const notfoundError = require('../Error/NotFoundError');
+const ContactResource = require('../app/Resource/ContactResource');
+const notfoundError = require('../app/Error/NotFoundError');
 
 const All = async (req, res, next) => {
     try {

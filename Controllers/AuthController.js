@@ -1,12 +1,12 @@
-const Auth = require('../Services/Auth');
-const welcomeMail = require('../Services/WelcomeMail');
-const UserResource = require('../Resource/UserResource');
-const AuthError = require('../Error/AuthError');
+const Auth = require('../app/Services/Auth');
+const welcomeMail = require('../app/Services/WelcomeMail');
+const UserResource = require('../app/Resource/UserResource');
+const AuthError = require('../app/Error/AuthError');
 const db = require('../db/models');
 const bcrypt = require('bcrypt');
-const notfoundError = require('../Error/NotFoundError');
+const notfoundError = require('../app/Error/NotFoundError');
 const crypto = require('crypto');
-const OtpMail = require('../Services/OtpMail');
+const OtpMail = require('../app/Services/OtpMail');
 
 
 const signUp = async (req, res, next) => {
