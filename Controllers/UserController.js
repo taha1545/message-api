@@ -1,6 +1,7 @@
 const UserResource = require('../app/Resource/UserResource');
 const db = require('../db/models');
 const notfoundError = require('../app/Error/NotFoundError');
+const { Op } = require('sequelize');
 const handleJsonImage = require("../app/Services/handleJsonImage");
 
 
@@ -104,11 +105,39 @@ const deleteUserById = async (req, res, next) => {
     }
 };
 
+const search = async (req, res, next) => {
+    try {
+        let { query } = req.query;
+        if (!query) return next(new NotFoundError('Query parameter is required'));
+        //
+        query = query.trim();
+        //
+        const users = await db.User.findAll({
+            where: {
+                [Op.or]: [
+                    { name: { [Op.iLike]: `%${query}%` } },
+                    { email: { [Op.iLike]: `%${query}%` } }
+                ]
+            },
+            limit: 10
+        });
+        //
+        res.status(200).json({
+            success: true,
+            users: users.map(user => UserResource(user))
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+
 
 module.exports = {
     getUserById,
     getUserByToken,
     getAllUsers,
     updateUserByToken,
-    deleteUserById
+    deleteUserById,
+    search
 };

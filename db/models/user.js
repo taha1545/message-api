@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define("User", {
+    const User = sequelize.define("User", {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -43,6 +43,33 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         }
     }, {
-        tableName: "users"
+        tableName: "users",
+        timestamps: true
     });
+
+    User.associate = (models) => {
+        // 
+        User.hasMany(models.Message, {
+            as: "sentMessages",
+            foreignKey: "fromId",
+        });
+
+        //
+        User.hasMany(models.Message, {
+            as: "receivedMessages",
+            foreignKey: "toId",
+        });
+
+        User.hasMany(models.Friend, {
+            as: "sentFriends",
+            foreignKey: "userId",
+        });
+
+        User.hasMany(models.Friend, {
+            as: "receivedFriends",
+            foreignKey: "friendId",
+        });
+    };
+
+    return User;
 };

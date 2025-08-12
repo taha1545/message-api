@@ -1,44 +1,73 @@
 require('dotenv').config();
-
+//
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-
+const http = require('http');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const morgan = require('morgan');
+//
 const db = require('./db/models');
 const ErrorHandler = require('./app/Middlewares/Handle');
 const UserRouter = require('./Routes/AuthRoute');
 const GoogleRouter = require('./Routes/GoogleRoute');
 const contactRoutes = require('./Routes/ContactRoute');
+const MessageRoutes = require('./Routes/MessageRoute');
+const FriendRoute = require('./Routes/FriendRoute');
+const getCorsOptions = require('./app/Services/corsOptions');
 //
+const socketInit = require('./socket');
 const app = express();
-
+const server = http.createServer(app);
+//
+const { Server } = require('socket.io');
+const { get } = require('./socket/userMap');
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+    }
+});
+socketInit(io);
+//
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100
+});
 // Middleware
-app.use(cors());
+app.use(cors(getCorsOptions()));
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(path.join(__dirname, 'public')));
-
+app.use((req, res, next) => { req.io = io; next(); });
+app.use(limiter);
+app.use(morgan('combined'));
 // Routes
 app.use('/users', UserRouter);
 app.use('/auth', GoogleRouter);
 app.use('/api/contacts', contactRoutes);
-// 
-app.get('/', (req, res) => { res.json({ message: 'Welcome to the user + contact template API', token: req.query.token || null, }); });
-app.use((req, res) => { res.status(404).json({ message: 'No endpoint found for this request', }); });
-
-// error handler
+app.use('/api/message', MessageRoutes);
+app.use('/api/friends', FriendRoute);
+app.get('/', (req, res) => {
+    res.json({ message: 'Welcome to the message API', token: req.query.token || null, io: !!req.io });
+});
+app.use((req, res) => {
+    res.status(404).json({ message: 'No endpoint found for this request' });
+});
+//  handler
 app.use(ErrorHandler);
 
-//   
-const PORT = process.env.APP_PORT;
-db.sequelize
-    .sync()
+// 
+const PORT = process.env.APP_PORT || 5000;
+db.sequelize.sync()
     .then(() => {
-        console.log(' Database connected ');
-        app.listen(PORT, () => {
-            console.log(` Server is running `);
+        console.log('✅ Database connected');
+        server.listen(PORT, () => {
+            console.log(`🚀 Server running on port ${PORT}`);
         });
     })
     .catch((err) => {
-        console.error(' err to DB:', err);
+        console.error('❌ Error to DB:', err);
     });

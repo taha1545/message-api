@@ -30,6 +30,8 @@ Router.put('/update', AuthMiddleware.checkAuth, UserValidation.updateUserValidat
 
 Router.get('/', AuthMiddleware.checkAuth, AuthMiddleware.checkAdmin, UserController.getAllUsers);
 
+Router.get('/search', UserController.search);
+
 Router.get('/:id', AuthMiddleware.checkAuth, AuthMiddleware.checkAdmin, UserController.getUserById);
 
 Router.delete('/:id', AuthMiddleware.checkAuth, AuthMiddleware.checkAdmin, UserController.deleteUserById);

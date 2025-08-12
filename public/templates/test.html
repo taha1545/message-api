@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Socket.IO Chat Test</title>
+</head>
+
+<body>
+    <h1>Socket.IO Chat Namespace Test</h1>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script>
+        const token = "token of  user";
+
+        // 
+        const chatSocket = io("http://localhost:3000/chat", {
+            auth: { token }
+        });
+
+        chatSocket.on("connect", () => {
+            console.log("✅ Connected to chat namespace:", chatSocket.id);
+
+            // 
+            chatSocket.emit("joinRoom", { otherUserId: 5 });
+        });
+
+        chatSocket.on("newMessage", (msg) => {
+            console.log("📩 New Message:", msg);
+        });
+
+        chatSocket.on("connect_error", (err) => {
+            console.error("❌ Connection Error (chat):", err.message);
+        });
+
+
+        const friendSocket = io("http://localhost:3000/friend", {
+            auth: { token }
+        });
+
+        friendSocket.on("connect", () => {
+            console.log("✅ Connected to friend namespace:", friendSocket.id);
+        });
+
+        friendSocket.on("friendRequestReceived", (data) => {
+            console.log("📬 Friend Request Received:", data);
+        });
+
+        friendSocket.on("friendRequestUpdated", (data) => {
+            console.log("🔄 Friend Request Updated:", data);
+        });
+
+        friendSocket.on("connect_error", (err) => {
+            console.error("❌ Connection Error (friend):", err.message);
+        });
+    </script>
+</body>
+
+</html>
