@@ -1,12 +1,17 @@
-🎯 Quick Start (Run Locally)
-Start your database
+# 🚀 message-app-api
 
-If you have Docker:
+A real-time messaging backend with user auth, Google OAuth, PostgreSQL + Sequelize, and WebSocket-powered chats.
 
-bash
-Copy
-Edit
-docker-compose up -d
+---
+
+## 🎯 Quick Start (Run Locally)
+
+1. **Start your database**
+
+   If you have Docker:
+
+   ```bash
+   docker-compose up -d
 This spins up PostgreSQL with your configured user/password.
 
 No Docker? Use your own PostgreSQL or SQLite setup instead.
@@ -88,3 +93,5 @@ Namespace	Purpose
 /friend	Friends & friend status
 /user	User presence & info
 /call	Audio/video calls
+
+🎉 Enjoy building your app!
