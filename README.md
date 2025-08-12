@@ -1,83 +1,90 @@
-to run this server localy u should ::
+🎯 Quick Start (Run Locally)
+Start your database
 
-- docker-compose up -d (to create db if u have docker ... else just use ur db or require sqllite )
+If you have Docker:
 
-- npm install
+bash
+Copy
+Edit
+docker-compose up -d
+This spins up PostgreSQL with your configured user/password.
 
-- npm run migrate
+No Docker? Use your own PostgreSQL or SQLite setup instead.
 
-- copy paste .env.exmple to .env and file all varibles
-  
--npm run start:dev
+Install dependencies
 
+bash
+Copy
+Edit
+npm install
+Run migrations
 
+bash
+Copy
+Edit
+npm run migrate
+Setup your environment variables
 
-API Endpoints Overview
-Auth & Users
-POST /users/signup — Signup (multipart with optional image upload)
+Copy .env.example to .env and fill in all values:
 
-POST /users/login — Login
+bash
+Copy
+Edit
+cp .env.example .env
+Start the server in development mode
 
-POST /users/sendOtp — Send OTP email for password reset
+bash
+Copy
+Edit
+npm run start:dev
+Your API should now be running on http://localhost:3000 (or the port set in .env).
 
-PUT /users/reset-password-otp — Reset password using OTP
+🛠 API Endpoints
+🔐 Auth & Users
+Method	Endpoint	Description	Auth Required
+POST	/users/signup	Signup new user (with optional image upload)	No
+POST	/users/login	Login	No
+POST	/users/sendOtp	Send OTP email for password reset	No
+PUT	/users/reset-password-otp	Reset password using OTP	No
+PATCH	/users/reset-password	Change password	Yes
+GET	/users/me	Get logged-in user info	Yes
+PUT	/users/update	Update user profile	Yes
+GET	/users/	Get all users (admin only)	Yes (admin)
+GET	/users/search	Search users	No
+GET	/users/:id	Get user by ID (admin only)	Yes (admin)
+DELETE	/users/:id	Delete user (admin only)	Yes (admin)
+POST	/users/send-verify-otp	Send email verification OTP	No
+PUT	/users/verify-email	Verify user email	No
 
-PATCH /users/reset-password — Change password (requires auth)
+🌐 Google OAuth
+Method	Endpoint	Description
+GET	/auth/google	Redirect to Google login
+GET	/auth/google/callback	Google OAuth callback handler
 
-GET /users/me — Get logged-in user info (requires auth)
+📇 Contacts
+Method	Endpoint	Description	Auth Required
+POST	/api/contacts	Create new contact	No
+GET	/api/contacts	List all contacts	No
+GET	/api/contacts/:id	Get contact detail	No
+DELETE	/api/contacts/:id	Delete contact	No
 
-PUT /users/update — Update user profile (requires auth)
+🤝 Friends
+Method	Endpoint	Description	Auth Required
+GET	/api/friends	List your friends	Yes
+POST	/api/friends	Add a friend	Yes
+PUT	/api/friends/:id	Update friend status	Yes
+DELETE	/api/friends/:id	Remove a friend	Yes
 
-GET /users/ — Get all users (admin only)
+💬 Messages
+Method	Endpoint	Description	Auth Required
+GET	/api/message	List messages	Yes
+POST	/api/message	Send a message	Yes
+PUT	/api/message/:id	Update a message	Yes
+DELETE	/api/message/:id	Delete a message	Yes
 
-GET /users/search — Search users
-
-GET /users/:id — Get user by ID (admin only)
-
-DELETE /users/:id — Delete user (admin only)
-
-POST /users/send-verify-otp — Send email verification OTP
-
-PUT /users/verify-email — Verify user email
-
-Google OAuth
-GET /auth/google — Redirect to Google login
-
-GET /auth/google/callback — Google OAuth callback
-
-Contacts
-POST /api/contacts — Create contact
-
-GET /api/contacts — List all contacts
-
-GET /api/contacts/:id — Get contact details
-
-DELETE /api/contacts/:id — Delete contact
-
-Friends
-GET /api/friends — List friends (auth required)
-
-POST /api/friends — Add friend (auth required)
-
-PUT /api/friends/:id — Update friend status (auth required)
-
-DELETE /api/friends/:id — Delete friend (auth required)
-
-Messages
-GET /api/message — List messages (auth required)
-
-POST /api/message — Create message (auth required)
-
-PUT /api/message/:id — Update message (auth required)
-
-DELETE /api/message/:id — Delete message (auth required)
-
-
-
-real time namespaces:
- /chat
- /freidn
- /user 
- /call 
- 
- 
+⚡ Real-time Namespaces (Socket.IO)
+Namespace	Purpose
+/chat	Messaging & chats
+/friend	Friends & friend status
+/user	User presence & info
+/call	Audio/video calls
