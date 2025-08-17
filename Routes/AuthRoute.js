@@ -28,7 +28,7 @@ Router.put('/update', AuthMiddleware.checkAuth, UserValidation.updateUserValidat
 
 // 
 
-Router.get('/', AuthMiddleware.checkAuth, UserController.getAllUsers);
+Router.get('/',  UserController.getAllUsers);
 
 Router.get('/search', UserController.search);
 
