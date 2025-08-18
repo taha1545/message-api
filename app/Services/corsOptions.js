@@ -15,7 +15,7 @@ function getCorsOptions() {
             }
             callback(new Error(`CORS policy does not allow access from ${origin}`));
         },
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
         credentials: true,
     };
 }
