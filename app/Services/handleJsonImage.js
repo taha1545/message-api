@@ -33,3 +33,5 @@ const handleJsonImage = async (user, newImageData) => {
     user.imagePath = `public/pfp/${filename}`;
     await user.save();
 };
+
+module.exports = handleJsonImage;
