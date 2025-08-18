@@ -5,6 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const http = require('http');
 const helmet = require('helmet');
+import bodyParser =require ("body-parser");
 const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 //
