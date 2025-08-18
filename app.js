@@ -38,8 +38,8 @@ const limiter = rateLimit({
 // Middleware
 app.use(cors(getCorsOptions()));
 app.use(helmet());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => { req.io = io; next(); });
 app.use(limiter);
