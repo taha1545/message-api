@@ -5,7 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const http = require('http');
 const helmet = require('helmet');
-import bodyParser =require ("body-parser");
+const bodyParser = require('body-parser');   // ✅ fixed import
 const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 //
@@ -36,31 +36,43 @@ const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100
 });
+
 // Middleware
 app.use(cors(getCorsOptions()));
 app.use(helmet());
-app.use(bodyParser.json({ limit: "10mb" }));
-app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
+
+// ✅ increase payload limit (change to 20mb, 50mb if needed)
+app.use(bodyParser.json({ limit: "20mb" }));
+app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
+
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => { req.io = io; next(); });
 app.use(limiter);
 app.use(morgan('combined'));
+
 // Routes
 app.use('/users', UserRouter);
 app.use('/auth', GoogleRouter);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/message', MessageRoutes);
 app.use('/api/friends', FriendRoute);
+
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to the message API', token: req.query.token || null, io: !!req.io });
+    res.json({
+        message: 'Welcome to the message API',
+        token: req.query.token || null,
+        io: !!req.io
+    });
 });
+
 app.use((req, res) => {
     res.status(404).json({ message: 'No endpoint found for this request' });
 });
-//  handler
+
+// Error handler
 app.use(ErrorHandler);
 
-// 
+// Start Server
 const PORT = process.env.APP_PORT || 5000;
 db.sequelize.sync()
     .then(() => {
