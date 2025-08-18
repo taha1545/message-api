@@ -72,7 +72,9 @@ const updateUserByToken = async (req, res, next) => {
         allowedUpdates.forEach((field) => {
             if (req.body[field]) user[field] = req.body[field];
         });
-        if (req.body.image) await handleJsonImage(user, image);
+       if (req.body.image) {
+            await handleJsonImage(user, req.body.image);
+        }
         //
         await user.save();
         //
