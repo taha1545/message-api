@@ -22,7 +22,7 @@ const handleJsonImage = async (user, newImageData) => {
     fs.writeFileSync(newPath, buffer);
 
     // 
-    user.imagePath = `public\\pfp\\${filename}`;
+    user.imagePath = `public/pfp/${filename}`;
     await user.save();
 };
 
