@@ -25,11 +25,13 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const { get } = require('./socket/userMap');
 const io = new Server(server, {
-    cors: {
-        origin: '*',
-        methods: ['GET', 'POST']
-    }
+  cors: {
+    origin: ["http://127.0.0.1:3000", "https://your-frontend-domain.com"], // ✅ explicit origins
+    methods: ["GET", "POST"],
+    credentials: true  // ✅ allow credentials
+  }
 });
+
 socketInit(io);
 //
 const limiter = rateLimit({
