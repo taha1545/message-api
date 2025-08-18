@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const PUBLIC_FOLDER = path.join(__dirname, "..", "public");
+const PUBLIC_FOLDER = path.join(__dirname, "..", "..", "public");
 const PFP_FOLDER = path.join(PUBLIC_FOLDER, "pfp");
 
 const handleJsonImage = async (user, newImageData) => {
