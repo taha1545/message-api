@@ -44,8 +44,15 @@ app.use(helmet());
 // ✅ increase payload limit (change to 20mb, 50mb if needed)
 app.use(bodyParser.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
-
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(
+  "/public",
+  express.static(path.join(__dirname, "public"), {
+    setHeaders: (res, filePath) => {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    },
+  })
+);
 app.use((req, res, next) => { req.io = io; next(); });
 app.use(limiter);
 app.use(morgan('combined'));
